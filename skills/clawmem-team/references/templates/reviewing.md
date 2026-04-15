@@ -1,4 +1,4 @@
-# Reviewing Template Getting Started
+# Reviewing Template
 
 Use this reference when the user wants a review-oriented Team built on top of ClawMem.
 

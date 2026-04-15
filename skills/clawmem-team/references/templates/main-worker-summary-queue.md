@@ -1,4 +1,4 @@
-# Main Worker Summary Queue Getting Started
+# Main Worker Summary Queue Template
 
 Use this reference when a user wants the current ClawMem Team demo shape moved out of the plugin and into an external template.
 
