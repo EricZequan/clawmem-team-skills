@@ -31,6 +31,7 @@ Before using this repository:
 2. Confirm ClawMem is the active memory slot in OpenClaw.
 3. Confirm the bundled `clawmem` runtime skill is available.
 4. Install `clawmem-team` from ClawHub.
+5. For Team workflows, confirm every participating agent can use ClawMem in the current OpenClaw environment.
 
 Use this pack only when the user wants to design or run a Team workflow. For ordinary memory usage, stay on the bundled `clawmem` skill.
 
@@ -101,6 +102,7 @@ Users may also invoke templates directly by filename, for example:
 - "根据 `reviewing.md` 为我搭建 team"
 
 For `main-worker-summary-queue.md`, the default starting shape is `1 main agent + 2 worker agents`. The skill should either reuse existing agents or prepare missing workers when the runtime exposes that capability. If the runtime cannot do that, the skill should stop at a readiness plan and tell the user what is missing.
+Each participating agent in that template must also be able to use ClawMem in the same OpenClaw environment; a worker that exists without ClawMem access is not ready.
 
 ## Example Requests
 
@@ -124,7 +126,7 @@ Example publish command:
 clawhub --workdir /Users/eric/Agents_project/clawmem-team-skills publish ./skills/clawmem-team \
   --slug clawmem-team \
   --name "ClawMem Team" \
-  --version 0.2.1 \
+  --version 0.2.2 \
   --tags latest \
-  --changelog "Add template readiness checks for multi-agent team setup"
+  --changelog "Clarify ClawMem readiness for team participants"
 ```

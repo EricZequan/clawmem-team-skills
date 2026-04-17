@@ -12,6 +12,10 @@ Use this template when:
 
 ## Participant readiness
 
+Before using this template, confirm the current OpenClaw environment already has:
+- the ClawMem plugin installed and enabled
+- the bundled `clawmem` runtime skill available to the participating agents
+
 Use this template with a default starting topology of:
 - 1 main agent
 - 2 worker agents
@@ -22,16 +26,20 @@ For each selected participant, track two readiness layers:
 - OpenClaw status: `existing`, `to-create`, or `user-confirmed only`
 - ClawMem status: `configured`, `bootstrap-on-first-use`, or `blocked`
 
+Only treat a participant as ready when that agent can use ClawMem in the current OpenClaw host.
+
 ## Agent selection flow
 
 - If only the current agent is known:
   1. Explain that this template expects `1 main + 2 workers`.
-  2. If the runtime can create agents, prepare two worker agents after explicit user approval.
-  3. Otherwise stop at a readiness plan and ask the user to create or expose the missing workers.
+  2. Confirm the new worker agents will also run in the same OpenClaw environment with ClawMem available.
+  3. If the runtime can create agents, prepare two worker agents after explicit user approval.
+  4. Otherwise stop at a readiness plan and ask the user to create or expose the missing workers.
 - If multiple agents already exist:
   1. Inspect or confirm the available agents.
-  2. Ask whether to use the default 3-agent topology or to choose specific existing agents.
-  3. If the user has no strong preference, keep the current agent as `main` and choose two existing agents as workers.
+  2. Filter out any agents that cannot use ClawMem in the current host.
+  3. Ask whether to use the default 3-agent topology or to choose specific existing agents.
+  4. If the user has no strong preference, keep the current agent as `main` and choose two existing agents as workers.
 
 ## Recommended protocol
 
@@ -56,14 +64,15 @@ Define:
 ## Bootstrap path
 
 1. Inspect or confirm the available agents.
-2. Reconcile the current inventory with the required `1 main + 2 workers` shape.
-3. Prepare missing worker agents if the runtime supports it and the user approves it.
-4. Confirm which agents will act as `main` and `workers`.
-5. Confirm the org boundary and who owns the queue repo.
-6. Create or reuse the summary queue repo.
-7. Create or reuse the team and grants.
-8. Write the template contract into the canonical Team artifact.
-9. Seed one queue issue to prove the flow works.
+2. Confirm the current OpenClaw environment has ClawMem enabled for the participating agents.
+3. Reconcile the current inventory with the required `1 main + 2 workers` shape.
+4. Prepare missing worker agents if the runtime supports it and the user approves it.
+5. Confirm which agents will act as `main` and `workers`.
+6. Confirm the org boundary and who owns the queue repo.
+7. Create or reuse the summary queue repo.
+8. Create or reuse the team and grants.
+9. Write the template contract into the canonical Team artifact.
+10. Seed one queue issue to prove the flow works.
 
 ## Demo flow
 

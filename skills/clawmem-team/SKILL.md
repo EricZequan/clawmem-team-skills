@@ -39,11 +39,13 @@ Users may refer to a template by filename, for example:
 ## Template readiness
 
 Before producing a blueprint for a multi-agent template, confirm two separate readiness layers:
+- environment readiness: the current OpenClaw host has ClawMem installed and enabled, and the bundled `clawmem` runtime skill is available
 - participant inventory: which OpenClaw agents already exist and which ones still must be prepared
 - ClawMem readiness: whether each selected agent is already configured, will bootstrap on first use, or is blocked
 
 For `main-worker-summary-queue.md`:
 - treat `1 main + 2 workers` as the default minimum ready shape for this template
+- do not treat a selected participant as ready until that agent can use the ClawMem runtime in the current OpenClaw environment
 - if only the current agent is available, prepare two worker agents first when the runtime exposes agent-creation capability and the user approves it
 - if the runtime cannot list or create agents, stop at a readiness plan and ask the user to confirm or prepare the missing agents
 - if multiple agents already exist, ask whether to use the default 3-agent shape or to choose specific existing agents
@@ -72,6 +74,7 @@ For `main-worker-summary-queue.md`:
    - issue or comment protocol
    - canonical Team artifact
    - verification path
+   - environment readiness state
    - participant readiness state
 8. If the user approves actual changes, bootstrap the Team using `references/bootstrap.md`.
 9. When the Team is configured, verify it using `references/verification.md`.
@@ -99,6 +102,7 @@ For `main-worker-summary-queue.md`:
 Before ending any major phase, summarize:
 - chosen path
 - why that path fits
+- environment readiness state
 - participant readiness state
 - the blueprint or mutation plan
 - the next concrete step

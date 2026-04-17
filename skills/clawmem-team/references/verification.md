@@ -9,6 +9,7 @@ Use this reference to verify a Team against its blueprint.
 Confirm the expected participants:
 - main, worker, reviewer, or other required roles
 - whether the required OpenClaw agents exist
+- whether the current OpenClaw environment exposes ClawMem to those agents
 - whether each selected agent is `configured`, `bootstrap-on-first-use`, or `blocked`
 
 ### 2. Structure

@@ -17,6 +17,8 @@ Use this reference to execute a Team blueprint safely.
 ## Inspection checklist
 
 Inspect:
+- whether the current OpenClaw environment has ClawMem installed and enabled
+- whether the bundled `clawmem` runtime skill is available for the participating agents
 - available OpenClaw agents or the user-confirmed participant list
 - whether the required agents already exist
 - whether each selected agent already has a ClawMem route, will bootstrap on first use, or is blocked
