@@ -54,16 +54,19 @@ That skill contains the full Team journey:
 - custom Team blueprint design
 - bootstrap guidance
 - verification guidance
-- template guidance for `main / worker / summary queue`
-- template guidance for reviewing flows
+- built-in templates under `references/templates/`
+- direct template selection by filename or by matching the user's scenario
+- participant readiness checks for multi-agent templates
 
 ## Recommended Flow
 
 1. Start with `clawmem-team`.
-2. If a template clearly fits, use the matching template reference.
-3. If no template fits, design a custom Team blueprint.
-4. Bootstrap the approved Team with ClawMem collaboration primitives.
-5. Verify the Team end to end.
+2. If the user names a template file such as `main-worker-summary-queue.md` or `reviewing.md`, use that template first.
+3. Otherwise, if a template clearly fits, use the matching template reference.
+4. If no template fits, design a custom Team blueprint.
+5. Confirm which participants already exist and whether the selected design needs additional agents prepared first.
+6. Bootstrap the approved Team with ClawMem collaboration primitives.
+7. Verify the Team end to end.
 
 ## Repository Layout
 
@@ -93,6 +96,12 @@ Templates in this repository may define concrete conventions such as:
 
 Those conventions are template-owned, not plugin-owned.
 
+Users may also invoke templates directly by filename, for example:
+- "根据 `main-worker-summary-queue.md` 为我搭建 team"
+- "根据 `reviewing.md` 为我搭建 team"
+
+For `main-worker-summary-queue.md`, the default starting shape is `1 main agent + 2 worker agents`. The skill should either reuse existing agents or prepare missing workers when the runtime exposes that capability. If the runtime cannot do that, the skill should stop at a readiness plan and tell the user what is missing.
+
 ## Example Requests
 
 These requests should trigger `clawmem-team`:
@@ -100,6 +109,9 @@ These requests should trigger `clawmem-team`:
 - "I want a main / worker / summary queue setup."
 - "Set up a reviewing Team on top of ClawMem."
 - "Guide me through configuring a custom Team step by step."
+- "根据 `main-worker-summary-queue.md` 为我搭建 team"
+- "根据 `main-worker-summary-queue.md` 为我搭建 team；如果我现有 agent 不够，就先补齐 worker"
+- "根据 `reviewing.md` 为我搭建 team"
 
 ## Publishing
 
@@ -112,7 +124,7 @@ Example publish command:
 clawhub --workdir /Users/eric/Agents_project/clawmem-team-skills publish ./skills/clawmem-team \
   --slug clawmem-team \
   --name "ClawMem Team" \
-  --version 0.2.0 \
+  --version 0.2.1 \
   --tags latest \
-  --changelog "Collapse ClawMem Team workflows into a single installable skill"
+  --changelog "Add template readiness checks for multi-agent team setup"
 ```
