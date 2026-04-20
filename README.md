@@ -58,6 +58,7 @@ That skill contains the full Team journey:
 - built-in templates under `references/templates/`
 - direct template selection by filename or by matching the user's scenario
 - participant readiness checks for multi-agent templates
+- runtime delegation readiness checks for multi-agent templates
 
 ## Recommended Flow
 
@@ -67,7 +68,8 @@ That skill contains the full Team journey:
 4. If no template fits, design a custom Team blueprint.
 5. Confirm which participants already exist and whether the selected design needs additional agents prepared first.
 6. Bootstrap the approved Team with ClawMem collaboration primitives.
-7. Verify the Team end to end.
+7. If bootstrap changed agent topology, gateway state, or pairing state, refresh the session before worker verification.
+8. Verify the Team end to end.
 
 ## Repository Layout
 
@@ -103,6 +105,7 @@ Users may also invoke templates directly by filename, for example:
 
 For `main-worker-summary-queue.md`, the default starting shape is `1 main agent + 2 worker agents`. The skill should either reuse existing agents or prepare missing workers when the runtime exposes that capability. If the runtime cannot do that, the skill should stop at a readiness plan and tell the user what is missing.
 Each participating agent in that template must also be able to use ClawMem in the same OpenClaw environment; a worker that exists without ClawMem access is not ready.
+That template is only `ready` after one real worker handoff succeeds through a working dispatch path. If setup changed agent config or restarted the gateway and the current session can no longer reach workers, the result should stay `partial` until session refresh or pairing repair is complete.
 
 ## Example Requests
 
@@ -126,7 +129,7 @@ Example publish command:
 clawhub --workdir /Users/eric/Agents_project/clawmem-team-skills publish ./skills/clawmem-team \
   --slug clawmem-team \
   --name "ClawMem Team" \
-  --version 0.2.2 \
+  --version 0.2.3 \
   --tags latest \
-  --changelog "Clarify ClawMem readiness for team participants"
+  --changelog "Tighten multi-agent readiness and verification rules"
 ```

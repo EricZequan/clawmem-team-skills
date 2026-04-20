@@ -38,10 +38,11 @@ Users may refer to a template by filename, for example:
 
 ## Template readiness
 
-Before producing a blueprint for a multi-agent template, confirm two separate readiness layers:
+Before producing a blueprint for a multi-agent template, confirm these readiness layers:
 - environment readiness: the current OpenClaw host has ClawMem installed and enabled, and the bundled `clawmem` runtime skill is available
 - participant inventory: which OpenClaw agents already exist and which ones still must be prepared
 - ClawMem readiness: whether each selected agent is already configured, will bootstrap on first use, or is blocked
+- runtime delegation readiness: whether the current control session can still dispatch real work to the required workers, or whether session refresh / pairing repair is still required
 
 For `main-worker-summary-queue.md`:
 - treat `1 main + 2 workers` as the default minimum ready shape for this template
@@ -50,6 +51,8 @@ For `main-worker-summary-queue.md`:
 - if the runtime cannot list or create agents, stop at a readiness plan and ask the user to confirm or prepare the missing agents
 - if multiple agents already exist, ask whether to use the default 3-agent shape or to choose specific existing agents
 - if the user has no stronger preference, keep the current agent as `main` and assign two workers
+- if bootstrap changes the OpenClaw agent topology, gateway state, or pairing state, assume the current session may need refresh before worker dispatch can be verified
+- do not report this template as `ready` until one real worker handoff succeeds through a working dispatch path instead of only by config inspection or main-authored proxy writes
 
 ## Read the right reference
 
@@ -76,9 +79,11 @@ For `main-worker-summary-queue.md`:
    - verification path
    - environment readiness state
    - participant readiness state
+   - runtime delegation readiness state
 8. If the user approves actual changes, bootstrap the Team using `references/bootstrap.md`.
-9. When the Team is configured, verify it using `references/verification.md`.
-10. If the user wants a demo, seed only one minimal workflow object.
+9. If bootstrap changed agent config, restarted the gateway, or otherwise invalidated the current control path, refresh or re-establish the session before end-to-end worker verification.
+10. When the Team is configured, verify it using `references/verification.md`.
+11. If the user wants a demo, seed only one minimal workflow object.
 
 ## Decision rules
 
@@ -89,6 +94,9 @@ For `main-worker-summary-queue.md`:
 - For templates with a minimum participant shape, stop at readiness planning when the required agents are still missing.
 - If several agents are already available for `main-worker-summary-queue.md`, ask whether to use the default 3-agent shape or a user-selected subset.
 - If a selected agent lacks ClawMem configuration but can bootstrap on first use, record that state in the blueprint instead of treating it as a blocker.
+- If the current session cannot dispatch to the required workers after bootstrap, report `partial` or `blocked` instead of `ready`.
+- Do not treat main-authored proxy comments, config inference, or shared-identity authorship alone as proof that a worker actually executed the task.
+- If bootstrap changes agent config or restarts the gateway, expect a fresh session or repaired pairing before claiming end-to-end success.
 - Ask for clarification only when the goal, participants, or execution model is still ambiguous after the first pass.
 - Do not invent a hidden Team protocol inside the plugin. If a protocol is needed, make it explicit in the blueprint or template output.
 - Do not refer to other sibling skills. This single skill owns the full Team journey.
@@ -104,5 +112,6 @@ Before ending any major phase, summarize:
 - why that path fits
 - environment readiness state
 - participant readiness state
+- runtime delegation readiness state
 - the blueprint or mutation plan
 - the next concrete step
