@@ -59,6 +59,9 @@ That skill contains the full Team journey:
 - direct template selection by filename or by matching the user's scenario
 - participant readiness checks for multi-agent templates
 - runtime delegation readiness checks for multi-agent templates
+- Workflow Label Schema requirements with a terminal closure rule (`task done` ⇒ `state: closed`)
+- ClawMem-native contract binding: contract stored as a stable memory node, referenced by id in every task body; leverages the bundled `clawmem` skill's turn loop so no per-host install is needed
+- user-facing communication layer (progressive disclosure + plain-language substitutions) for non-specialist users
 
 ## Recommended Flow
 
@@ -81,6 +84,7 @@ skills/
       blueprint.md
       bootstrap.md
       verification.md
+      communication.md
       templates/
         main-worker-summary-queue.md
         reviewing.md
